@@ -32,21 +32,21 @@ class WordWolf {
   }
 
   // nameがウルフかを返す
-  boolean WolfIs(String name) {
-      if (name.equals(players[wolfNumber])) {
-          return true;
-      } else {
-          return false;
-      }
+  boolean wolfIs(String name) {
+    if (name.equals(players[wolfNumber])) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // nameのお題を返す
-  String MessageFor(String name) {
-      String word = citizenWord;
-      if (WolfIs(name)) {
-          word = wolfWord;
-      }
+  String messageFor(String name) {
+    String word = citizenWord;
+    if (wolfIs(name)) {
+      word = wolfWord;
+    }
 
-      return "お題は「" + word + "」です";
+    return word;
   }
 }
