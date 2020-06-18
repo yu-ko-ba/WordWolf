@@ -41,7 +41,7 @@ class WordWolf {
   }
 
   // nameのお題を返す
-  String messageFor(String name) {
+  String wordFor(String name) {
     String word = citizenWord;
     if (wolfIs(name)) {
       word = wolfWord;
