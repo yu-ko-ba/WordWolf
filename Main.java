@@ -6,6 +6,14 @@ class Main {
         final String[] words;
         final Scanner scanner = new Scanner(System.in);
 
+        boolean debug = false;
+        try {
+            if (args[0].equals("debug")) {
+                debug = true;
+            }
+        } catch (Exception e) {
+        }
+
         // プレイヤー名を入力してもらう
         while (true) {
             System.out.print("プレイヤー名を,（カンマ）区切りで入力してください＞");
@@ -49,21 +57,29 @@ class Main {
         // 入力してもらったデータを元にインスタンスを生成する
         WordWolf wordWolf = new WordWolf(players, words);
 
-        // 各プレイヤーにお題を表示する
-        String command;
-        if ("\\".equals(System.getProperty("file.separator"))) {
-            command = "cls";
-        } else {
-            command = "clear";
+        if (debug) {
+            System.out.println(wordWolf.wolfNumber);
         }
 
-        Runtime runtime = Runtime.getRuntime();
+        // 各プレイヤーにお題を表示する
+        String[] command;
+        if ("\\".equals(System.getProperty("file.separator"))) {
+            command = new String[]{"cmd", "/c", "cls"};
+        } else {
+            command = new String[]{"bash", "-c", "clear"};
+        }
+
+        ProcessBuilder clearProcess = new ProcessBuilder(command).inheritIO();
         for (String name : wordWolf.players) {
             try {
-                runtime.exec(command);
+                clearProcess.start().waitFor();
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            System.out.println(name + "さんのお題を表示します");
+            System.out.print(name + "さんはEnterキーを押してください");
+            scanner.nextLine();
 
             System.out.println("お題は「" + wordWolf.wordFor(name) + "」です");
             System.out.print("確認したらEnterキーを押してください");
@@ -71,14 +87,23 @@ class Main {
         }
 
         try {
-            runtime.exec(command);
+            clearProcess.start().waitFor();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         // お話タイム
         try {
-            Thread.sleep(10 * 60 * 1000);
+            int sleepSeconds = 5 * 60;
+            if (debug) {
+                sleepSeconds = 1;
+            }
+            for (int i = 0; i < sleepSeconds; i++) {
+                int timeRemaining = sleepSeconds - i;
+                System.out.println("残り時間は" + (timeRemaining / 60) + "分" + (timeRemaining % 60) + "秒です");
+                Thread.sleep(1000);
+                clearProcess.start().waitFor();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

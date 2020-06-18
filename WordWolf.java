@@ -4,7 +4,7 @@ class WordWolf {
   final String[] players;
   final String[] words;
 
-  private final int wolfNumber;
+  final int wolfNumber;
 
   private final String wolfWord;
   private final String citizenWord;
@@ -29,6 +29,9 @@ class WordWolf {
         break;
       }
     }
+
+    // 動作確認用
+    System.out.println("wolfNumberは" + wolfNumber + "です");
   }
 
   // nameがウルフかを返す
