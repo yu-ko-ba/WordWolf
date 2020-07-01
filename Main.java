@@ -6,6 +6,7 @@ class Main {
         final String[] words;
         final Scanner scanner = new Scanner(System.in);
 
+        // デバッグしたいときは、$ java Main debug と実行する
         boolean debug = false;
         try {
             if (args[0].equals("debug")) {
@@ -28,6 +29,7 @@ class Main {
             }
             System.out.print("ですね？(y/N)");
             String answer = scanner.nextLine();
+            // キーボードからの入力が"y"か"Y"だったときに無限ループを抜ける
             if (answer.equals("y") | answer.equals("Y")) {
                 players = inArray;
                 break;
@@ -48,6 +50,7 @@ class Main {
             }
             System.out.print("でいいですか？(y/N)");
             String answer = scanner.nextLine();
+            // キーボードからの入力が"y"か"Y"だったときに無限ループを抜ける
             if (answer.equals("y") | answer.equals("Y")) {
                 words = inArray;
                 break;
@@ -61,16 +64,18 @@ class Main {
             System.out.println(wordWolf.wolfNumber);
         }
 
-        // 各プレイヤーにお題を表示する
+        // OSに合わせて画面の表示をクリアするコマンドを用意する
         String[] command;
         if ("\\".equals(System.getProperty("file.separator"))) {
             command = new String[]{"cmd", "/c", "cls"};
         } else {
             command = new String[]{"bash", "-c", "clear"};
         }
-
         ProcessBuilder clearProcess = new ProcessBuilder(command).inheritIO();
+
+        // 各プレイヤーにお題を表示する
         for (String name : wordWolf.players) {
+            // 出力内容をクリアする
             try {
                 clearProcess.start().waitFor();
             } catch (Exception e) {
